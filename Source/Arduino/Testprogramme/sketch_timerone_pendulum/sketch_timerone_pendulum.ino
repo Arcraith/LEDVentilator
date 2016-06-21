@@ -1,7 +1,9 @@
 #include "TimerOne.h"
 #include <Wire.h>
 
-int c = 0;
+int sensPin = 5;
+int c = 2;
+boolean rising = true;
  
 void setup(){
   // Expander
@@ -15,6 +17,8 @@ void setup(){
   Wire.write(0x00);                     // IODIRA register
   Wire.write(0x00);                     // set all of port A to outputs
   Wire.endTransmission();
+  
+  pinMode(sensPin, INPUT);              // Set Sensor as Input
 
   // Timer and interrupt
   Timer1.initialize(2000);
@@ -38,5 +42,15 @@ void display() {
  Wire.write(0x12);
  Wire.write(c >> 8);
  Wire.endTransmission();
- c++;
+ if(rising){
+  c = c << 1;
+ } else {
+  c = c >> 1;
+ }
+
+ if(c > 65535){
+  rising = false;
+ } else if(c == 1){
+  rising = true;
+ }
 }
