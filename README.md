@@ -6,3 +6,15 @@ Ziel dabei ist die Ausgabe von Text auf dem vom Ventilator erzeugten "Display" u
 
 Teilnehmer: Friedrich, Nora, Ann-Kathrin, Tobias
 
+# Wichtig
+
+Für das Projekt werden folgende Dinge benötigt:
+
+Server:
+* install node-modules: **npm install**
+* es wird für die Bildbearbeitung benötigt: numpy, matplotlib, socketio
+
+Arduino (Bibliotheken):
+* RCSwitch
+* TimerOne
+* Wire.h
