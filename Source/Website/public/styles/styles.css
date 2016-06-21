@@ -1,0 +1,30 @@
+* {
+	margin : 0;
+	padding: 0;
+}
+
+body, html {
+	width: 100%;
+	max-width: 100% !important;
+	overflow-x: hidden !important;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#canvas {
+	display: inline;
+}
+
+.canvas {
+	position:absolute; 
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+#container {
+	position:relative;
+	width: 100%;
+	max-width: 500px;
+}

@@ -1,8 +1,10 @@
 {
-	"name": "websockets",
+	"name": "Doodlenator",
 	"version": "0.0.1",
+	"author": "Tobias Schweisfurth",
 	"dependencies": {
 		"express": "latest",
-		"socket.io": "latest"
+		"socket.io": "latest",
+		"body-parser": "1.8"
 	}
 }

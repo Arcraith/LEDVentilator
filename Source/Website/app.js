@@ -2,7 +2,11 @@ var PORT = 3000;
 
 // Initialisierung des Express Servers
 var express = require("express");
+
+var bodyParser = require("body-parser");
 var app = express();
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // Der Server braucht eine Warteschlange
 var inputQueue = [];
@@ -13,55 +17,56 @@ var server = app.listen(PORT);
 // Initialisierung Websockets
 var socketio = require("socket.io");
 var io = socketio.listen(server);
+
 var outputInterval;
 var OUTPUTTIME = 20000;
+var lines_drawn = [];
+
+// for saving images
+var fs = require("fs");
+var mkdirp = require('mkdirp');
+
 
 // Eventhandler für die Verbindung eines neuen Clients
 io.sockets.on("connection", function(socket){
 	
+	console.log("device connected");
 	// Wenn der Client connected, muss einmal die ContentQueue auf Anfrage geladen werden
-	socket.on("initializeList", function(data){
-		socket.emit("initializeContentQueue", JSON.stringify(inputQueue));
-	});
+	
+	socket.emit("initializeContentQueue", JSON.stringify(inputQueue));
+	
 
-	// Behandeln von neuem Input und broadcasten an alle Clients
-	socket.on("inputText", function(data){
-		console.log("new input: " + data.input);
-		if(inputQueue.length > 0){
-			// Speichern in der Input-Warteschlange
-			inputQueue.push(data.input);
-			//Broadcast an alle Clients
-			io.sockets.emit("updateList", JSON.stringify(inputQueue));
-		} else {
-			// Speichern in der Input-Warteschlange
-			inputQueue.push(data.input);
-			//Broadcast an alle Clients
-			io.sockets.emit("updateList", JSON.stringify(inputQueue));
-			// Starten eines neuen Timers
-			outputInterval = setInterval(sendCurrentText, OUTPUTTIME);
-		}
-	});
-
-});
-
-// TODO: Laufen eines Timers für das Senden des aktuellen Textes
-var sendCurrentText = function(){
-	// prüfen, ob es Output gibt, der an den Mikrokontroller übergeben werden kann
-	 if(inputQueue.length == 1){
-		var output = inputQueue.shift();
-
-		// aktualisiere Listen aller Clients
-		io.sockets.emit("updateList", JSON.stringify(inputQueue));
-		// kein Element mehr vorhanden, lösche den Timer
-		clearInterval(outputInterval);
-	} else if(inputQueue.length > 0){
-		var output = inputQueue.shift();
-
-		// aktualisiere Listen aller Clients
-		io.sockets.emit("updateList", JSON.stringify(inputQueue));
+	for(var i in lines_drawn){
+		socket.emit("draw_line", { line: lines_drawn[i] } );
 	}
 
-	// TODO: senden des Output an den Mikrokontroller
-}
+	socket.on("draw_line", function(data){
+		lines_drawn.push(data.line);
+		io.emit("draw_line", { line: data.line });
+	});
+});
 
+app.post('/', function(request, response){
+	//console.log("username: " + request.body.data);
+
+	var img = request.body.data;
+
+	// strip off the data: url prefix to get just the base64-encoded bytes
+	var data = img.replace(/^data:image\/\w+;base64,/, "");
+	var buf = new Buffer(data, 'base64');
+
+	mkdirp('images', function(err){
+		if(err) console.error("directory could not be created");
+		else console.log("pow!");
+	});
+
+	fs.writeFile('images/image.png', buf);
+});
+
+
+var updateImage = function(){
+	io.sockets.emit('imageUpdate');
+};
+
+setInterval(updateImage, 10000);
 // TODO: Senden des aktuellen Textes an den Controller

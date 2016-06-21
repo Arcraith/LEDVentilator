@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Websocket Client</title>
+		<script src="socket.io/socket.io.js"></script>
+		<script src="code.js"></script>
+		<link rel="stylesheet" href="styles/styles.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	</head>
+	<body onload="initialize()">
+		
+		
+		<header>
+			<h1>LED-Ventilator</h1>
+		</header>
+		
+		<div id="container">
+			<canvas class="canvas" id="circle"></canvas>
+			<canvas class="canvas" id="drawing"></canvas>
+		</div>
+
+		<form methode="post" action ="/">
+			<input type="submit" value="Submit">
+		</form>
+
+		<!--
+		<footer>
+			Hier wird irgendwas stehen...
+		</footer>
+		-->
+	</body>
+</html>

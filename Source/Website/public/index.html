@@ -4,31 +4,16 @@
 		<title>Websocket Client</title>
 		<script src="socket.io/socket.io.js"></script>
 		<script src="code.js"></script>
+		<link rel="stylesheet" href="styles/styles.css">
 	</head>
 	<body onload="initialize()">
+	
 		
-		<header>
-			<h1>LED-Ventilator</h1>
-		</header>
-		<nav>
-			<h3>Geben Sie hier den gewünschten Text ein: </h3>
-		</nav>
+		<canvas id="drawing"></canvas>
+		<form method="post" action="/">
+		    <input type="hidden" id="data" name="data">
+		    <input type="submit" onclick="saveCanvas()" value="Submit">
+		</form>
 		
-		<section>
-			<input type="field" id="textfield">
-			<button type="button" name="send" id="button"> Absenden </button>
-		</section>
-
-		<section>
-			Hier sollte die Liste stehen, in der alle Texte aus der Warteschlange angezeigt werden<br>
-
-			<ul id="contentQueue">
-
-			</ul>
-		</section>
-
-		<footer>
-			Hier wird irgendwas stehen...
-		</footer>	
 	</body>
 </html>
