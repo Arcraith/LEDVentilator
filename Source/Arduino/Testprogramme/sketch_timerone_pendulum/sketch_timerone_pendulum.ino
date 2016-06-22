@@ -2,10 +2,12 @@
 #include <Wire.h>
 
 int sensPin = 5;
-int c = 2;
+unsigned long c = 1;
 boolean rising = true;
  
 void setup(){
+  Serial.begin(9600);
+  
   // Expander
   
   Wire.begin();
@@ -21,7 +23,7 @@ void setup(){
   pinMode(sensPin, INPUT);              // Set Sensor as Input
 
   // Timer and interrupt
-  Timer1.initialize(2000);
+  Timer1.initialize(100000);
   Timer1.attachInterrupt(display);
 }
  
@@ -42,15 +44,17 @@ void display() {
  Wire.write(0x12);
  Wire.write(c >> 8);
  Wire.endTransmission();
+ Serial.print(c);
+ if(c >= 32768){
+  rising = false;
+ } else if(c == 1){
+  rising = true;
+ }
+ 
  if(rising){
   c = c << 1;
  } else {
   c = c >> 1;
  }
-
- if(c > 65535){
-  rising = false;
- } else if(c == 1){
-  rising = true;
- }
+ Serial.println();
 }

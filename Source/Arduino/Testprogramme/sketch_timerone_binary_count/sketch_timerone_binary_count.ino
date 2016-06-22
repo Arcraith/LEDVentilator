@@ -17,7 +17,7 @@ void setup(){
   Wire.endTransmission();
 
   // Timer and interrupt
-  Timer1.initialize(2000);
+  Timer1.initialize(2000);  // 1000000 entspricht 1 Sekunde
   Timer1.attachInterrupt(display);
 }
  
