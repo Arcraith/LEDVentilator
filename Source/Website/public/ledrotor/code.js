@@ -1,10 +1,14 @@
-var socket = io.connect()
+var NAMESPACE = '/ledrotor';
+
+
 function initialize(){
 
 };
 
 
 document.addEventListener("DOMContentLoaded", function() {
+   var socket = io(NAMESPACE);
+
    var mouse = { 
       click: false,
       move: false,

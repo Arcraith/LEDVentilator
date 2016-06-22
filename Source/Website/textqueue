@@ -1,0 +1,42 @@
+// Behandeln von neuem Input und broadcasten an alle Clients
+	socket.on("inputText", function(data){
+		console.log("new input: " + data.input);
+		if(inputQueue.length > 0){
+			// Speichern in der Input-Warteschlange
+			inputQueue.push(data.input);
+			//Broadcast an alle Clients
+			io.sockets.emit("updateList", JSON.stringify(inputQueue));
+		} else {
+			// Speichern in der Input-Warteschlange
+			inputQueue.push(data.input);
+			//Broadcast an alle Clients
+			io.sockets.emit("updateList", JSON.stringify(inputQueue));
+			// Starten eines neuen Timers
+			outputInterval = setInterval(sendCurrentText, OUTPUTTIME);
+		}
+	});
+
+
+
+
+
+
+// TODO: Laufen eines Timers für das Senden des aktuellen Textes
+var sendCurrentText = function(){
+	// prüfen, ob es Output gibt, der an den Mikrokontroller übergeben werden kann
+	 if(inputQueue.length == 1){
+		var output = inputQueue.shift();
+
+		// aktualisiere Listen aller Clients
+		io.sockets.emit("updateList", JSON.stringify(inputQueue));
+		// kein Element mehr vorhanden, lösche den Timer
+		clearInterval(outputInterval);
+	} else if(inputQueue.length > 0){
+		var output = inputQueue.shift();
+
+		// aktualisiere Listen aller Clients
+		io.sockets.emit("updateList", JSON.stringify(inputQueue));
+	}
+
+	// TODO: senden des Output an den Mikrokontroller
+}
