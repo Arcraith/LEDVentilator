@@ -43,6 +43,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(delta);
   // put your main code here, to run repeatedly:
   if(digitalRead(switchPin) == LOW){
     //digitalWrite(ledPin, LOW);
@@ -63,9 +64,9 @@ void loop() {
       // Timer-Period Update
       
       delta = neu - alt;
-      Serial.print(delta);
-      Serial.println();
-      //Timer1.setPeriod(delta/36);     // neue timePerRound (delta) durch Winkelschritte
+      //Serial.print(delta);
+      //Serial.println();
+      Timer1.setPeriod(delta);     // neue timePerRound (delta) durch Winkelschritte
       alt = micros();
     } 
   }
@@ -92,13 +93,13 @@ void pendulum(){
     
     Wire.beginTransmission(0x27);
      Wire.write(0x12);
-     Wire.write(picture[c] & 0xff);
+     Wire.write(d & 0xff);
      Wire.endTransmission();
      Wire.beginTransmission(0x20);
      Wire.write(0x12);
-     Wire.write(picture[c] >> 8);
+     Wire.write(d >> 8);
      Wire.endTransmission();
-     /*
+     
      if(d >= 32768){
       rising = false;
      } else if(d == 1){
@@ -110,11 +111,7 @@ void pendulum(){
      } else {
       d = d >> 1;
      }
-     delay(1);*/
-     c++;
-     if(c>35){
-      c = 0;
-     }
+     
   }
 }
 

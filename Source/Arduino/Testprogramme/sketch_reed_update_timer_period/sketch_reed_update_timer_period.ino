@@ -5,8 +5,8 @@ const int switchPin = 4;
 const int ledPin = 12;
 int c = 0;
 boolean reedToggle = false;
-unsigned long start = 0;
-unsigned long ende = 0;
+unsigned long alt = 0;
+unsigned long neu = 0;
 unsigned long delta = 0;
 
 long picture[36] = { 65535,0,65535,0,63535,
@@ -52,13 +52,14 @@ void loop() {
      *  --> Toggle-Boolean, wenn man HIGH betritt
      */
     if(reedToggle == false){
+      neu = micros();
       c++;
       reedToggle = true;          // WICHTIG!
       
       // Timer-Period Update
-      ende = micros();
-      delta = ende - start;
-      Timer1.setPeriod(delta/36);     // neue timePerRound (delta) durch Winkelschritte
+      delta = neu - alt;
+      Timer1.setPeriod(delta);     // neue timePerRound (delta) durch Winkelschritte
+      alt = micros();
     } 
   }
 }

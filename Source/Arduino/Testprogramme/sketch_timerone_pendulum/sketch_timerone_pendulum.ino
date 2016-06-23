@@ -56,5 +56,4 @@ void display() {
  } else {
   c = c >> 1;
  }
- Serial.println();
 }
