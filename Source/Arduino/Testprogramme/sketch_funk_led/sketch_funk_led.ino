@@ -15,7 +15,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if (mySwitch.available()) {
-    Serial.println("hallo");
     int value = mySwitch.getReceivedValue();
 
     if (value == 0) {

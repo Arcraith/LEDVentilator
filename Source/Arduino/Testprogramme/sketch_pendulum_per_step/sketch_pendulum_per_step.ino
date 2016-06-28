@@ -9,7 +9,8 @@ boolean reedToggle = false;
 unsigned long alt = 0;
 unsigned long neu = 0;
 unsigned long delta = 0;
-unsigned long fix = 30;
+//int roundCounter = 0;
+//unsigned long roundAverage[10] = {0};
 boolean rising = true;
 
 long picture[36] = { 65535,0,65535,0,63535,
@@ -43,8 +44,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(delta);
-  // put your main code here, to run repeatedly:
+  //Serial.println(delta);
   if(digitalRead(switchPin) == LOW){
     //digitalWrite(ledPin, LOW);
     reedToggle = false;
@@ -64,12 +64,27 @@ void loop() {
       // Timer-Period Update
       
       delta = neu - alt;
-      //Serial.print(delta);
+      Serial.println(delta);
       //Serial.println();
       Timer1.setPeriod(delta);     // neue timePerRound (delta) durch Winkelschritte
+      //roundAverage[roundCounter] = delta;
+      //Serial.println(roundCounter);
+      //roundCounter++;
       alt = micros();
     } 
   }
+  /*
+  if(roundCounter == 10){
+    unsigned long sum = 0;
+    for(int i = 0; i < 10; i++){
+      sum += roundAverage[i];
+    }
+    sum = sum / 10;
+    Serial.println(sum);
+    Timer1.setPeriod(sum);
+    roundCounter = 0;
+    
+  }*/
 }
 
 void display(){
