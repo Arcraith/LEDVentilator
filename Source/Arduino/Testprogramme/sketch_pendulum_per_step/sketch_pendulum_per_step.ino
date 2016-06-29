@@ -1,6 +1,15 @@
 #include <Wire.h>
 #include "TimerOne.h"
 
+/*
+ * Pundulum erzeugt das Pendelhafte Aufleuchten der LEDs (einmal vor und zurück). Dieser soll
+ * einmal pro Timer-Interrupt ausgeführt werden, sodass durch die interne Verzögerung durch die 
+ * for-Schleife ein Dreieck entsteht.
+ * 
+ * Dieses wird durch den Reed-Kontakt und der damit errechneten Runden-Laufzeit immer an der gleichen
+ * Position gehalten.
+ */
+
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 1;
@@ -13,11 +22,11 @@ unsigned long delta = 0;
 //unsigned long roundAverage[10] = {0};
 boolean rising = true;
 
-long picture[36] = { 65535,0,65535,0,63535,
+/*long picture[36] = { 65535,0,65535,0,63535,
                      0,65535,0,65535,0,
                      65535,0,65535,0,63535,
                      0,65535,0,65535,0,
-                     65535,0,65535,0,63535,0};
+                     65535,0,65535,0,63535,0};*/
 
 void setup() {
   Serial.begin(9600);

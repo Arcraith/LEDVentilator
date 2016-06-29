@@ -1,6 +1,16 @@
 #include <Wire.h>
 #include "TimerOne.h"
 
+/*
+ * Da es Probleme gibt, möglichst viele LEDs auf einmal anzusteuern (nach mehreren Wiederholungen
+ * mit hoher Frequenz stürzt das Programm ab oder er wechselt die Pegel nicht mehr von HIGH auf LOW),
+ * soll mithilfe von vorprogrammierten Bildern (gespeichert in long-Arrays) getestet werden, wo 
+ * die Grenzen liegen.
+ * 
+ * Das Bild wird durch den Reed-Kontakt daran gehindert sich zu drehen, weil die Anzeige-Frequenz
+ * durch die Umdrehungszeit angepasst wird.
+ */
+ 
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 0;            // Winkelschritt-Counter
@@ -17,7 +27,9 @@ boolean rising = true;
 /*long picture[24] = { 65535,0,65535,0,65535,0,
                       65535,0,65535,0,65535,0,
                       65535,0,65535,0,65535,0,
-                      65535,0,65535,0,65535,0,};*/
+                      65535,0,65535,0,65535,0,
+                     };*/
+                      
 long picture[24] = { 8184,0,8184,0,8184,0,
                      8184,8184,8184,8184,8184,0,
                      8184,0,8184,0,8184,0,
@@ -25,10 +37,10 @@ long picture[24] = { 8184,0,8184,0,8184,0,
                     };
 
 long smiley[24] = { 0,0,0,4080,0,0,
-                0,4080,4080,4080,4080,4080,
-                4080,4080,4080,4080,4080,0,
-                0,0,4080,0,0,0
-              };
+                    0,4080,4080,4080,4080,4080,
+                    4080,4080,4080,4080,4080,0,
+                    0,0,4080,0,0,0
+                  };
 
 
 void setup() {
@@ -90,18 +102,6 @@ void loop() {
       alt = micros();
     } 
   }
-  /*
-  if(roundCounter == 10){
-    unsigned long sum = 0;
-    for(int i = 0; i < 10; i++){
-      sum += roundAverage[i];
-    }
-    sum = sum / 10;
-    Serial.println(sum);
-    Timer1.setPeriod(sum);
-    roundCounter = 0;
-    
-  }*/
 }
 
 void display(){

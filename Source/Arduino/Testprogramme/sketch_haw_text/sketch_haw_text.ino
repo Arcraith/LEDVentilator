@@ -1,6 +1,13 @@
 #include <Wire.h>
 #include "TimerOne.h"
 
+/*
+ * Ein erster Versuch Text anzuzeigen. Einzelne Buchstaben werden in Arrays gepeichert und dann
+ * zu einem bestimmten Zeitpunkt ausgelesen.
+ * 
+ * Problem: Viele LEDs auf einmal anmachen, führt zu Problemen.
+ */
+
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 1;

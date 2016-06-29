@@ -1,6 +1,11 @@
 #include <Wire.h>
 #include "TimerOne.h"
 
+
+/*
+ * Weiterer Test zur Bildstabilisierung mittels Reed-Kontakt und Umdrehungszeit
+ */
+ 
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 0;

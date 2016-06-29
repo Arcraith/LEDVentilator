@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*
+ * Wenn der Code 123 per Funk erhalten wird, soll die LED, die am PIN 12 vom Arduino 
+ * angeschlossen ist, aufleuchten.
+ */
+
 RCSwitch mySwitch = RCSwitch();
 int ledpin = 12;
 

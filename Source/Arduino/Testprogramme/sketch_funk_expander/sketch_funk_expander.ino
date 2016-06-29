@@ -3,10 +3,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* Um den Expander zu testen, wird die Zahl, die über Funk an den Arduino gesendet wird, 
+ * in binärer Darstellung mithilfe der Expander angezeigt.
+ */
+
 RCSwitch mySwitch = RCSwitch();
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   mySwitch.enableReceive(0); // Receiver onn inerrupt 0 =&gt; that is pin #2
 
