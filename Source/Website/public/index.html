@@ -1,0 +1,106 @@
+<html lang="de">
+<head>
+ 
+    <meta charset="utf-8">
+    <title>Der LED-Rotor</title>
+    <meta name="description" content="CSS only mobile first navigation">
+    <meta name="author" content="Ian Yates">
+ 
+    <!--Mobile specific meta goodness :)-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+ 
+    <!--css-->
+    <link rel="stylesheet" href="styles/styles.css">
+	
+	<!--javascripts-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="picture_select.js"></script>
+ 
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+ 
+    <!-- Favicons-->
+    <!--<link rel="shortcut icon" href="img/favicon.ico">-->
+ 
+</head>
+<body id="home" onload="initialize()">
+	
+    <div class="wrapper">
+     
+        <header>
+         
+            <h1 class="logo"><a href="">LED-Rotor</a></h1>
+         
+			<a class="to_nav" href="#primary_nav">Menu</a>
+        </header>
+         
+        <article>
+		
+			<p>Bei der unten aufgelisteten Auswahl handelt es sich um vorprogrammierte Bilder, die auf dem LED-Rotor dargestellt werden können. Mit dem setzen des Hackens geben Sie einen Vote ab, dass dieses Bild als nächstes angezeigt wird. Das Bild mit den meisten Votes nach 20 Minuten gewinnt.<br><br>
+			<span class="important">Leider gibt es Übertragungsschwierigkeiten beim Funk zwischen RaspberryPi und Arduino. Daher muss der Rotor bei Wechsel eines Bildes kurzzeitig angehalten werden.</span></p> 
+         
+        </article>
+         
+        <article>
+             
+            <div class="picture_select_parent">
+			  <div class="picture_select_child"><img src="http://kingofwallpapers.com/kitten/kitten-007.jpg"/>
+				<label>
+				  <input id="checkbox1" type="checkbox"/>FAN
+				  <span id="vote1"> Votes: </span>
+				</label>
+			  </div>
+			  <div class="picture_select_child"><img src="http://kingofwallpapers.com/kitten/kitten-007.jpg"/>
+				<label>
+				  <input id="checkbox2" type="checkbox"/>FUN
+				  <span id="vote2"> Votes: </span>
+				</label>
+			  </div>
+			  <div class="picture_select_child"><img src="http://kingofwallpapers.com/kitten/kitten-007.jpg"/>
+				<label>
+				  <input id="checkbox3" type="checkbox"/>HAW
+				  <span id="vote3"> Votes: </span>
+				</label>
+			  </div>
+			  <div class="picture_select_child"><img src="http://kingofwallpapers.com/kitten/kitten-007.jpg"/>
+				<label>
+				  <input id="checkbox4" type="checkbox"/>PACMAN
+				  <span id="vote4"> Votes: </span>
+				</label>
+			  </div>
+			</div> 
+         
+        </article>
+        
+		<nav id="primary_nav">
+         
+			<ul>
+			 
+				<li><a href="index.html">Bildauswahl</a></li>
+			 
+				<li><a href="doodleIO.html">Doodle-IO</a></li>
+			 
+				<li><a href="textinput.html">Texteingabe</a></li>
+			 
+				<li><a href="info.html">Information</a></li>
+			 
+				<li class="top"><a href="#home">Top</a></li>
+			 
+			</ul>
+		 
+		</nav><!--end primary_nav-->
+         
+        <footer>
+         
+            <!--<p>Copyright &copy;2012 Ian Yates <a href="http://webdesign.tutsplus.com">Webdesigntuts+</a></p>-->
+			<p> Website zum LED-Rotor-Projekt. Erstellt von Nora Panhuis, Friedrich Schimmel, Ann-Kathrin Schaack und Tobias Schweisfurth</p>
+         
+        </footer>
+     
+    </div><!--end wrapper-->
+     
+
+     
+</body>
+</html>

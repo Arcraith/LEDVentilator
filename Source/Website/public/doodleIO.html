@@ -1,0 +1,90 @@
+<html lang="de">
+<head>
+ 
+    <meta charset="utf-8">
+    <title>Der LED-Rotor</title>
+    <meta name="description" content="CSS only mobile first navigation">
+    <meta name="author" content="Ian Yates">
+ 
+    <!--Mobile specific meta goodness :)-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+ 
+    <!--css-->
+    <link rel="stylesheet" href="styles/styles.css">
+	
+	<!--javascripts-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="doodle.js"></script>
+ 
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+ 
+    <!-- Favicons-->
+    <!--<link rel="shortcut icon" href="img/favicon.ico">-->
+ 
+</head>
+<body id="home" onload="initialize()">
+	
+    <div class="wrapper">
+     
+        <header>
+         
+            <h1 class="logo"><a href="">LED-Rotor</a></h1>
+         
+			<a class="to_nav" href="#primary_nav">Menu</a>
+        </header>
+         
+        <article>
+		
+			<p>Ein weiteres Ziel des Projekts ist es zusammen an einem Bild zu malen, welches dann auf dem LED-Rotor dargestellt wird. Dafür wird das Bild in einem festen Intervall dem Rotor gerecht abgetastet. 
+			Zu beachten ist dabei, dass auf Grund der Bauart des Rotors ein kreisrunder Ausschnitt in der Mitte des Bildes fehlen wird. <br><br>
+			<span class="important">Da es Übertragungsschwierigkeiten gibt von RaspberryPi, der die Daten per Funk versendet, zum Arduino gibt, ist diese Funktion auf Eis gelegt. 
+			Das gemeinsame Malen kann weiterhin ausgeführt werden (auf mobilen Endgeräten führt dies zu Darstellungs- und Input-Problemen), aber es wird nicht auf dem LED-Rotor angezeigt</span>
+			</p> 
+         
+        </article>
+         
+        <article>
+             
+            <div id="canvas_wrapper">
+				<canvas id="drawing">Your browser doesn't support canvas</canvas>
+				<form method="post" action="/ledrotor/server/">
+					<input type="hidden" id="data" name="data">
+					<!--<input type="submit" onclick="saveCanvas()" value="Submit">-->
+				</form> 
+			</div>
+         
+        </article>
+        
+		<nav id="primary_nav">
+         
+			<ul>
+			 
+				<li><a href="index.html">Bildauswahl</a></li>
+			 
+				<li><a href="doodleIO.html">Doodle-IO</a></li>
+			 
+				<li><a href="textinput.html">Texteingabe</a></li>
+			 
+				<li><a href="info.html">Information</a></li>
+			 
+				<li class="top"><a href="#home">Top</a></li>
+			 
+			</ul>
+		 
+		</nav><!--end primary_nav-->
+         
+        <footer>
+         
+            <!--<p>Copyright &copy;2012 Ian Yates <a href="http://webdesign.tutsplus.com">Webdesigntuts+</a></p>-->
+			<p> Website zum LED-Rotor-Projekt. Erstellt von Nora Panhuis, Friedrich Schimmel, Ann-Kathrin Schaack und Tobias Schweisfurth</p>
+         
+        </footer>
+     
+    </div><!--end wrapper-->
+     
+
+     
+</body>
+</html>
