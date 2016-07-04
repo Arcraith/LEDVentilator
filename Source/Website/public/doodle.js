@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
    // register mouse event handlers
    canvas.onmousedown = function(e){ mouse.click = true; };
-   canvas.touchstart = function(e) { mouse.clock = true; };
+   //canvas.touchstart = function(e) { mouse.clock = true; };
    canvas.onmouseup = function(e){ mouse.click = false; };
-   canvas.touchend = function(e) { mouse.click = false; };
+   //canvas.touchend = function(e) { mouse.click = false; };
 
    canvas.onmousemove = function(e) {
       var rect = canvas.getBoundingClientRect();
