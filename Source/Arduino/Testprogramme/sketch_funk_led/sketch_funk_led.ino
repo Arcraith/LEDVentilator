@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*
+ * Wenn der Code 123 per Funk erhalten wird, soll die LED, die am PIN 12 vom Arduino 
+ * angeschlossen ist, aufleuchten.
+ */
+
 RCSwitch mySwitch = RCSwitch();
 int ledpin = 12;
 
@@ -15,7 +20,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if (mySwitch.available()) {
-    Serial.println("hallo");
     int value = mySwitch.getReceivedValue();
 
     if (value == 0) {

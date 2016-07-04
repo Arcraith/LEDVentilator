@@ -1,5 +1,13 @@
 #include <Wire.h>
 
+/*
+ * Erster Test zur Funktion des Reed-Kontakts. Es sollen die Umdrehungen gezählt werden und binär
+ * mithilfe der LEDs ausgegeben werden.
+ * 
+ * Durch diesen Test hat man herausgefunden, dass Reed-Kontakt in einem ganzen Feld den Pegel auf High
+ * setzt und nicht einmal, wie man es sich für einen Rundenzähler erhofft.
+ */
+
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 0;

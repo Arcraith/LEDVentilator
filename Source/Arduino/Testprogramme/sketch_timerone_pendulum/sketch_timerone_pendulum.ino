@@ -1,6 +1,11 @@
 #include "TimerOne.h"
 #include <Wire.h>
 
+/*
+ * Ein Timer-Interrupt basiertes Pendel, welches die leuchtende LED von innen nach außen nach innen
+ * laufen lässt.
+ */
+
 int sensPin = 5;
 unsigned long c = 1;
 boolean rising = true;
@@ -56,5 +61,4 @@ void display() {
  } else {
   c = c >> 1;
  }
- Serial.println();
 }

@@ -1,6 +1,15 @@
 #include "TimerOne.h"
 #include <Wire.h>
 
+
+/*
+ * Um zu garantieren, dass die LEDs in immer gleichen Abständen an/ausgeschaltet werden, werden 
+ * diese durch Timer-attached Interrupts gesteuert. Dadurch kann Code, der unterschiedlich lange dauern kann
+ * in die main-loop() gepackt werden und verzögert somit nicht die LEDs.
+ * 
+ * Dieses Beispiel zählt lediglich eine Zahl hoch und stellt sie binär mit den Expandern dar.
+ */
+ 
 int c = 0;
  
 void setup(){

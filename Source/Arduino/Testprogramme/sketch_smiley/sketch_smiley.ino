@@ -2,31 +2,46 @@
 #include "TimerOne.h"
 
 /*
- * Pundulum erzeugt das Pendelhafte Aufleuchten der LEDs (einmal vor und zurück). Dieser soll
- * einmal pro Timer-Interrupt ausgeführt werden, sodass durch die interne Verzögerung durch die 
- * for-Schleife ein Dreieck entsteht.
+ * Da es Probleme gibt, möglichst viele LEDs auf einmal anzusteuern (nach mehreren Wiederholungen
+ * mit hoher Frequenz stürzt das Programm ab oder er wechselt die Pegel nicht mehr von HIGH auf LOW),
+ * soll mithilfe von vorprogrammierten Bildern (gespeichert in long-Arrays) getestet werden, wo 
+ * die Grenzen liegen.
  * 
- * Dieses wird durch den Reed-Kontakt und der damit errechneten Runden-Laufzeit immer an der gleichen
- * Position gehalten.
+ * Das Bild wird durch den Reed-Kontakt daran gehindert sich zu drehen, weil die Anzeige-Frequenz
+ * durch die Umdrehungszeit angepasst wird.
  */
-
+ 
 const int switchPin = 4;
 const int ledPin = 12;
-int c = 1;
+int c = 0;            // Winkelschritt-Counter
 int stepCounter = 1;
 boolean reedToggle = false;
 unsigned long alt = 0;
 unsigned long neu = 0;
 unsigned long delta = 0;
-//int roundCounter = 0;
-//unsigned long roundAverage[10] = {0};
+unsigned long fix = 331;
+// int roundCounter = 0;
+// unsigned long roundAverage[10] = {0};
 boolean rising = true;
 
-/*long picture[36] = { 65535,0,65535,0,63535,
-                     0,65535,0,65535,0,
-                     65535,0,65535,0,63535,
-                     0,65535,0,65535,0,
-                     65535,0,65535,0,63535,0};*/
+/*long picture[24] = { 65535,0,65535,0,65535,0,
+                      65535,0,65535,0,65535,0,
+                      65535,0,65535,0,65535,0,
+                      65535,0,65535,0,65535,0,
+                     };*/
+                      
+long picture[24] = { 8184,0,8184,0,8184,0,
+                     8184,8184,8184,8184,8184,0,
+                     8184,0,8184,0,8184,0,
+                     8184,8184,8184,8184,8184,0
+                    };
+
+long smiley[24] = { 0,0,0,4080,0,0,
+                    0,4080,4080,4080,4080,4080,
+                    4080,4080,4080,4080,4080,0,
+                    0,0,4080,0,0,0
+                  };
+
 
 void setup() {
   Serial.begin(9600);
@@ -46,6 +61,7 @@ void setup() {
   Wire.write(0x00);                     // set all of port A to outputs
   Wire.endTransmission();
 
+  
   // Timer and attached interrupt 
   //Timer1.initialize(2000);
   Timer1.initialize(1000000);
@@ -74,26 +90,18 @@ void loop() {
       
       delta = neu - alt;
       Serial.println(delta);
+
+      delta = delta + fix;
+      
       //Serial.println();
-      Timer1.setPeriod(delta);     // neue timePerRound (delta) durch Winkelschritte
+      c = 0;
+      Timer1.setPeriod(delta/24);     // neue timePerRound (delta) durch Winkelschritte
       //roundAverage[roundCounter] = delta;
       //Serial.println(roundCounter);
       //roundCounter++;
       alt = micros();
     } 
   }
-  /*
-  if(roundCounter == 10){
-    unsigned long sum = 0;
-    for(int i = 0; i < 10; i++){
-      sum += roundAverage[i];
-    }
-    sum = sum / 10;
-    Serial.println(sum);
-    Timer1.setPeriod(sum);
-    roundCounter = 0;
-    
-  }*/
 }
 
 void display(){
@@ -108,7 +116,24 @@ void display(){
   if(stepCounter > 10){
     stepCounter = 1;
   }*/
-  pendulum();
+  //pendulum();
+  showPicture();
+}
+
+void showPicture(){
+  
+   Wire.beginTransmission(0x27);
+   Wire.write(0x12);
+   Wire.write(picture[c] & 0xff);
+   Wire.endTransmission();
+   Wire.beginTransmission(0x20);
+   Wire.write(0x12);
+   Wire.write(picture[c] >> 8);
+   Wire.endTransmission();
+   c++;
+   if(c >= 24){
+    c = 0;
+   }
 }
 
 void pendulum(){
