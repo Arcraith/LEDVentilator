@@ -14,7 +14,8 @@
 const int switchPin = 4;
 const int ledPin = 12;
 int c = 0;            // Winkelschritt-Counter
-int stepCounter = 1;
+int roundCount = 0;
+boolean pacManToggle = false;
 boolean reedToggle = false;
 unsigned long alt = 0;
 unsigned long neu = 0;
@@ -41,6 +42,34 @@ long smiley[24] = { 0,0,0,4080,0,0,
                     4080,4080,4080,4080,4080,0,
                     0,0,4080,0,0,0
                   };
+long haw[24] = { 6528,2040,0,8184,24,8148,
+                 0,0,0,0,0,0,
+                 0,0,0,0,0,0,
+                 0,8184,384,8184,0,2040
+                 };
+long fan[24] = {  1023,1023,0,0,0,0,
+                  1023,1023,1023,1023,0,0,
+                  0,0,1023,1023,1023,1023,  
+                  0,0,0,0,1023,1023
+                  };
+
+long led[24] = { 6168,0,8184,6168,4080,0,
+                 0,0,0,0,0,0,
+                 0,0,0,0,0,0,
+                 8184,48,48,0,8184,6552
+                };
+long fun[24] = { 8184,0,8184,6144,8184,0,
+                 0,0,0,0,0,0,
+                 0,0,0,0,0,0,
+                 8184,6528,6144,0,8184,24 
+};
+long pacman[24] = {8191,8191,8191,0,0,0,
+                   0,0,0,8191,8191,8191,
+                   8191,8191,8191,8191,8191,8191,
+                   8191,8191,8191,8191,8191,8191
+};
+
+
 
 
 void setup() {
@@ -90,7 +119,10 @@ void loop() {
       
       delta = neu - alt;
       Serial.println(delta);
-
+      roundCount++;
+      if(roundCount % 50 == 0){
+        toggle();
+      }
       delta = delta + fix;
       
       //Serial.println();
@@ -120,15 +152,23 @@ void display(){
   showPicture();
 }
 
+void toggle(){
+  if(pacManToggle){
+    
+  } else {
+    
+  }
+}
+
 void showPicture(){
   
    Wire.beginTransmission(0x27);
    Wire.write(0x12);
-   Wire.write(picture[c] & 0xff);
+   Wire.write(pacman[c] & 0xff);
    Wire.endTransmission();
    Wire.beginTransmission(0x20);
    Wire.write(0x12);
-   Wire.write(picture[c] >> 8);
+   Wire.write(pacman[c] >> 8);
    Wire.endTransmission();
    c++;
    if(c >= 24){

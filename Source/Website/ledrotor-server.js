@@ -1,8 +1,13 @@
 var NAMESPACE = '/ledrotor';
 module.exports = {
 
-	initialize: function(io){
-		var nsp = io.of(NAMESPACE);
+	initialize: function(socket, express, app){
+		console.log("ledrotor: my module is starting");
+
+		var nsp = socket.of(NAMESPACE);
+
+
+		app.use(express.static(__dirname + '/public'));
 		
 		// Der Server braucht eine Warteschlange --> nutze inputQueue.push(..) und inputQueue.shift() zum Ein-/Auslesen
 		var inputQueue = [];
@@ -12,6 +17,7 @@ module.exports = {
 		var lines_drawn = [];
 
 		// for saving images
+		// node modules im Server-Ordner laden
 		var fs = require("fs");
 		var mkdirp = require('mkdirp');
 
@@ -59,5 +65,14 @@ module.exports = {
 
 		setInterval(updateImage, 10000);
 		// TODO: Senden des aktuellen Textes an den Controller
+	},
+	getAuthors(){
+		return ["Nora Panhuis", "Friedrich Schimmel", "Ann-Kathrin Schaack", "Tobias Schweisfurth"];
+	},
+	getInformation(){
+		return "Ein POV-Projekt anhand eines LED-Rotors";
+	},
+	getTitle(){
+		return "LED-Rotor";
 	}
 }
