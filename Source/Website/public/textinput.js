@@ -17,6 +17,7 @@ function initialize(){
 		var inputQueue = JSON.parse(data);
 		
 		createList(inputQueue);
+		console.log("initialized");
 	});
 
 	// Updaten der ContentQueue
@@ -37,4 +38,8 @@ function initialize(){
 			inputList.appendChild(li);
 		}
 	}
+
+	socket.on("takePicture", function(data){
+		console.log("hallloooooo");
+	});
 };
