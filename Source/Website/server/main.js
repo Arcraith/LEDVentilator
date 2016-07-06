@@ -33,17 +33,18 @@ module.exports = {
 			"1": 0,
 			"2": 0,
 			"3": 0,
-			"4": 0
+			"4": 0,
+			"5": 0
 		};
 
 
 		// Eventhandler für die Verbindung eines neuen Clients
 		nsp.on("connection", function(socket){
 			
-			console.log("ledrotor: device connected");
+			//console.log("ledrotor: device connected");
 			// Wenn der Client connected, muss einmal die ContentQueue auf Anfrage geladen werden
 			
-			socket.emit("checkBoxVotes", { "checkbox1": votes[1], "checkbox2": votes[2], "checkbox3": votes[3], "checkbox4": votes[4]});
+			socket.emit("checkBoxVotes", { "checkbox1": votes[1], "checkbox2": votes[2], "checkbox3": votes[3], "checkbox4": votes[4], "checkbox5": votes[5]});
 			
 			// Texteingabe
 			socket.emit("initializeContentQueue", JSON.stringify(inputQueue));
@@ -104,9 +105,15 @@ module.exports = {
 					} else {
 						votes[4]--;
 					}
+				} else if(data.id == "checkbox5"){
+					if(data.bool){
+						votes[5]++;
+					} else {
+						votes[5]--;
+					}
 				}
 
-				nsp.emit("checkBoxVotes", { "checkbox1": votes[1], "checkbox2": votes[2], "checkbox3": votes[3], "checkbox4": votes[4]});
+				nsp.emit("checkBoxVotes", { "checkbox1": votes[1], "checkbox2": votes[2], "checkbox3": votes[3], "checkbox4": votes[4], "checkbox5": votes[5]});
 			});
 
 		});
