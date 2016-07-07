@@ -48,9 +48,9 @@ function initialize(){
 		checkbox5.checked = false;
 	});
 
-	/*
+	
 	socket.on("maxVote", function(data){
 		console.log(data.code);
 	});
-	*/
+	
 }
