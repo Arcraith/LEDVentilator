@@ -1,12 +1,11 @@
 from socketIO_client import SocketIO, BaseNamespace
-#from pi_switch import RCSwitchSender
 
-
-sender = RCSwitchSender()
-sender.enableTransmit(0)
 
 class MainNamespace(BaseNamespace):
-    def sendMaxVote(data):
+    def on_connect(*args):
+        print("connected")
+    
+    def on_maxVote(*args):
         print("Neuer Max Value erhalten")
         # codesend...
         
@@ -19,6 +18,7 @@ class MainNamespace(BaseNamespace):
             num += 1
         """
         
-socketIO = SocketIO("localhost", 3000, MainNamespace)   
-socketIO.on('maxVote', sendMaxVote)
-socketIO.wait()
+socketIO = SocketIO("141.22.50.128", 80, MainNamespace)
+
+while True:
+    socketIO.wait()
