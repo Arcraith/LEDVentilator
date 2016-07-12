@@ -1,13 +1,12 @@
 from socketIO_client import SocketIO, BaseNamespace
 import RPi.GPIO as GPIO
 import time
+import os
 
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(26, GPIO.OUT) 	# PIN#26 (GPIO7) als Ausgang
 GPIO.output(26, True)		# Pin#26 auf High --> macht Motor an
-
-
 
 class LEDRotorNamespace(BaseNamespace):
     def on_connect(self,*args):
@@ -24,5 +23,6 @@ class LEDRotorNamespace(BaseNamespace):
         
 socketIO = SocketIO("localhost", 3000, LEDRotorNamespace)
 lr_namespace = socketIO.define(LEDRotorNamespace, '/ledrotor')
+
 while True:
     socketIO.wait(seconds=1)

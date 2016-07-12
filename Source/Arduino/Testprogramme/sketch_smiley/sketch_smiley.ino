@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include "TimerOne.h"
+#include <RCSwitch.h>
 
 /*
  * Da es Probleme gibt, möglichst viele LEDs auf einmal anzusteuern (nach mehreren Wiederholungen
@@ -24,6 +25,8 @@ unsigned long fix = 331;
 // int roundCounter = 0;
 // unsigned long roundAverage[10] = {0};
 boolean rising = true;
+int program = 1;
+RCSwitch mySwitch = RCSwitch();
 
 /*long picture[24] = { 65535,0,65535,0,65535,0,
                       65535,0,65535,0,65535,0,
@@ -90,6 +93,7 @@ void setup() {
   Wire.write(0x00);                     // set all of port A to outputs
   Wire.endTransmission();
 
+  mySwitch.enableReceive(0); // Receiver on interrupt 0
   
   // Timer and attached interrupt 
   //Timer1.initialize(2000);
@@ -134,6 +138,23 @@ void loop() {
       alt = micros();
     } 
   }
+
+  if(mySwitch.available()){
+    int value = mySwitch.getReceivedValue();
+
+    if(value == 0){
+      Serial.print("unknown encoding");
+    } else {
+      Serial.print("Received ");
+      Serial.print( mySwitch.getReceivedValue() );
+      Serial.print(" / ");
+      Serial.print( mySwitch.getReceivedBitlength() );
+      Serial.print("bit ");
+      Serial.print("Protocol: ");
+      Serial.println( mySwitch.getReceivedProtocol() );
+      program = value;
+    }
+  }
 }
 
 void display(){
@@ -161,46 +182,48 @@ void toggle(){
 }
 
 void showPicture(){
-  
-   Wire.beginTransmission(0x27);
-   Wire.write(0x12);
-   Wire.write(pacman[c] & 0xff);
-   Wire.endTransmission();
-   Wire.beginTransmission(0x20);
-   Wire.write(0x12);
-   Wire.write(pacman[c] >> 8);
-   Wire.endTransmission();
+   if(program == 1){
+     Wire.beginTransmission(0x27);
+     Wire.write(0x12);
+     Wire.write(picture[c] & 0xff);
+     Wire.endTransmission();
+     Wire.beginTransmission(0x20);
+     Wire.write(0x12);
+     Wire.write(picture[c] >> 8);
+     Wire.endTransmission(); 
+   } else if(program == 2){
+     Wire.beginTransmission(0x27);
+     Wire.write(0x12);
+     Wire.write(smiley[c] & 0xff);
+     Wire.endTransmission();
+     Wire.beginTransmission(0x20);
+     Wire.write(0x12);
+     Wire.write(smiley[c] >> 8);
+     Wire.endTransmission();
+   } else if(program == 3){
+    Wire.beginTransmission(0x27);
+     Wire.write(0x12);
+     Wire.write(haw[c] & 0xff);
+     Wire.endTransmission();
+     Wire.beginTransmission(0x20);
+     Wire.write(0x12);
+     Wire.write(haw[c] >> 8);
+     Wire.endTransmission();
+   } else if(program == 4){
+    Wire.beginTransmission(0x27);
+    Wire.write(0x12);
+    Wire.write(fan[c] & 0xff);
+    Wire.endTransmission();
+    Wire.beginTransmission(0x20);
+    Wire.write(0x12);
+    Wire.write(fan[c] >> 8);
+    Wire.endTransmission();
+   }
    c++;
    if(c >= 24){
     c = 0;
    }
 }
 
-void pendulum(){
-  unsigned long d = 1;
-  for(int i = 0; i < 31; i++){
-    
-    Wire.beginTransmission(0x27);
-     Wire.write(0x12);
-     Wire.write(d & 0xff);
-     Wire.endTransmission();
-     Wire.beginTransmission(0x20);
-     Wire.write(0x12);
-     Wire.write(d >> 8);
-     Wire.endTransmission();
-     
-     if(d >= 32768){
-      rising = false;
-     } else if(d == 1){
-      rising = true;
-     }
-     
-     if(rising){
-      d = d << 1;
-     } else {
-      d = d >> 1;
-     }
-     
-  }
-}
+
 
